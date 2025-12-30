@@ -18,3 +18,9 @@ this is how you run it locally without docker
 psql "postgresql://billtracker:billtracker@localhost:5432/billtracker"
 ```
 
+
+you could run this once so git warns you before committing secrets
+
+```bash
+git config --global core.hooksPath .githooks
+```
