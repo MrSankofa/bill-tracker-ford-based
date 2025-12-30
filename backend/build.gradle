@@ -2,8 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.1'
 	id 'io.spring.dependency-management' version '1.1.7'
-	// update the SonarQube plugin to a Gradle 8+ compatible 4.x release
-	id 'org.sonarqube' version '4.3.0.3225'
+	id 'org.sonarqube' version '7.2.1.6560'
 }
 
 group = 'com.altruisticsoftwaredevelopment'

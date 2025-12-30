@@ -35,7 +35,7 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
             SONAR_ORG: ${{ secrets.SONAR_ORG }}
-        run: ./gradlew sonar
+        run: ./gradlew sonar --stacktrace --info
 
       # FOSSA analysis
       - name: Install FOSSA CLI
