@@ -1,1 +1,38 @@
-.idea
+# =====================
+# OS
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# IntelliJ IDEA
+# =====================
+.idea/
+*.iml
+
+# =====================
+# Gradle
+# =====================
+backend/.gradle/
+backend/build/
+
+# =====================
+# Logs
+# =====================
+*.log
+
+# =====================
+# Environment / Secrets
+# =====================
+.env
+.env.*
+backend/src/main/resources/application-local.properties
+backend/src/test/resources/application-test.properties
+backend/application-local.yml
+backend/application-prod.properties
+backend/application-prod.yml
+
+# =====================
+# Testcontainers
+# =====================
+backend/.testcontainers.properties
