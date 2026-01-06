@@ -62,6 +62,4 @@ jobs:
         working-directory: backend
         env:
           FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
-        run: |
-          fossa analyze --debug
-        
+        run: fossa analyze
