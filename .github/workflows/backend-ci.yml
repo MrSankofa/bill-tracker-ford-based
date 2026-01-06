@@ -1,0 +1,65 @@
+name: backend-ci
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "backend/**"
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+    paths:
+      - "backend/**"
+
+jobs:
+  build-test-scan:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Cache Sonar packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Test
+        run: ./gradlew test
+
+      # SonarCloud Analysis
+      - name: SonarCloud Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          SONAR_ORG: ${{ secrets.SONAR_ORG }}
+        run: ./gradlew sonar --stacktrace --info
+
+      # FOSSA analysis
+      - name: Install FOSSA CLI
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          curl -H 'Cache-control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash -s -- -b "$HOME/.local/bin"
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          fossa --version
+
+      - name: FOSSA Analyze (backend)
+        working-directory: backend
+        env:
+          FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+        run: fossa analyze

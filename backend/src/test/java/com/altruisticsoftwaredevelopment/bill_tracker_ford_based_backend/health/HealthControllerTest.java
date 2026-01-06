@@ -1,31 +1,24 @@
-// File: backend/src/test/java/com/altruisticsoftwaredevelopment/bill_tracker_ford_based_backend/health/HealthControllerTest.java
 package com.altruisticsoftwaredevelopment.bill_tracker_ford_based_backend.health;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = "spring.liquibase.enabled=false")
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(HealthController.class)
 class HealthControllerTest {
 
-    @LocalServerPort
-    int port;
+    @Autowired
+    MockMvc mvc;
 
     @Test
     void healthEndpointReturnsOk() throws Exception {
-        var url = new java.net.URL("http://localhost:" + port + "/api/health");
-        var conn = (java.net.HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-
-        assertThat(conn.getResponseCode()).isEqualTo(200);
-
-        try (var in = new java.io.BufferedReader(new java.io.InputStreamReader(conn.getInputStream()))) {
-            var body = in.readLine();
-            assertThat(body).isEqualTo("ok");
-        }
+        mvc.perform(get("/api/health"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("ok"));
     }
 }
