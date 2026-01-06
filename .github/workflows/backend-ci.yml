@@ -58,7 +58,10 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
           fossa --version
 
-      - name: FOSSA Analyze
+      - name: FOSSA Analyze (backend)
+        working-directory: backend
         env:
           FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
-        run: fossa analyze
+        run: |
+          fossa analyze --debug
+        
