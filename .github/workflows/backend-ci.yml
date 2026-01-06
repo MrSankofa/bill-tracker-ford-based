@@ -53,7 +53,10 @@ jobs:
       # FOSSA analysis
       - name: Install FOSSA CLI
         run: |
-          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
+          mkdir -p "$HOME/.local/bin"
+          curl -H 'Cache-control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash -s -- -b "$HOME/.local/bin"
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          fossa --version
 
       - name: FOSSA Analyze
         env:
