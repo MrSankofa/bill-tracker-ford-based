@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bill-tracker-postgres-secret
+type: Opaque
+stringData:
+  POSTGRES_DB: bill_tracker
+  POSTGRES_USER: billtracker
+  POSTGRES_PASSWORD: billtracker
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bill-tracker-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bill-tracker-postgres
+  template:
+    metadata:
+      labels:
+        app: bill-tracker-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: bill-tracker-postgres-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bill-tracker-postgres
+spec:
+  selector:
+    app: bill-tracker-postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
