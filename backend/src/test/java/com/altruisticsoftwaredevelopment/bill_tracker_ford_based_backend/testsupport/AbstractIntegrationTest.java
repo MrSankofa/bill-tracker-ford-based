@@ -1,11 +1,13 @@
 package com.altruisticsoftwaredevelopment.bill_tracker_ford_based_backend.testsupport;
 
+import org.junit.jupiter.api.Tag;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+@Tag("testcontainers")
 @Testcontainers
 public abstract class AbstractIntegrationTest {
 

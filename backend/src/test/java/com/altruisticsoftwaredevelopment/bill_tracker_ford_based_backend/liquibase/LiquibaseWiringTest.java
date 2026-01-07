@@ -10,9 +10,12 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.junit.jupiter.api.Tag;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Tag("testcontainers")
 @SpringBootTest
 @Testcontainers
 class LiquibaseWiringTest {
