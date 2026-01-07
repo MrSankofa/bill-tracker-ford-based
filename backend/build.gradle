@@ -41,16 +41,16 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-//tasks.named('test') {
-//	useJUnitPlatform()
-//
-//	// Usage: ./gradlew test -PexcludeTags=testcontainers
-//	if (project.hasProperty('excludeTags')) {
-//		useJUnitPlatform {
-//			excludeTags(project.property('excludeTags').toString())
-//		}
-//	}
-//}
+tasks.named('test') {
+	useJUnitPlatform()
+
+	// Usage: ./gradlew test -PexcludeTags=testcontainers
+	if (project.hasProperty('excludeTags')) {
+		useJUnitPlatform {
+			excludeTags(project.property('excludeTags').toString())
+		}
+	}
+}
 
 
 sonar {
